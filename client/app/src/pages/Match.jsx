@@ -35,6 +35,19 @@ export default function Match() {
   const key = `${weather}-${feeling}`;
   const message = MATCHES[key] || "Every feeling is okay 💛";
 
+  /* ✅ SAVE TO DASHBOARD */
+  const saveAndGoToDashboard = () => {
+    const todayCheckin = {
+      date: new Date().toLocaleDateString(),
+      weather,
+      feeling,
+      message,
+    };
+
+    localStorage.setItem("todayCheckin", JSON.stringify(todayCheckin));
+    navigate("/dashboard");
+  };
+
   return (
     <div className="min-h-screen bg-pink-50 flex items-center justify-center px-4">
       <div className="bg-white max-w-xl w-full rounded-2xl p-8 shadow text-center">
@@ -48,12 +61,21 @@ export default function Match() {
 
         <p className="text-green-700 mb-8">{message}</p>
 
-        <button
-          onClick={() => navigate("/checkin")}
-          className="bg-pink-500 text-white px-6 py-3 rounded-full font-bold hover:bg-pink-600 transition"
-        >
-        Set the Mood again
-        </button>
+        <div className="flex gap-4 justify-center">
+          <button
+            onClick={() => navigate("/checkin")}
+            className="border-2 border-pink-400 text-pink-600 px-6 py-3 rounded-full font-bold"
+          >
+            Set Again
+          </button>
+
+          <button
+            onClick={saveAndGoToDashboard}
+            className="bg-pink-500 text-white px-6 py-3 rounded-full font-bold hover:bg-pink-600 transition"
+          >
+            Save & View Dashboard →
+          </button>
+        </div>
       </div>
     </div>
   );
