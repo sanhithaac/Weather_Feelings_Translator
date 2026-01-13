@@ -44,13 +44,13 @@ export default function Register() {
     <Navbar />
 
     <div className="min-h-screen bg-pink-50">
-      <div className="max-w-6xl mx-auto px-6 py-12"></div>
+      <div className="max-w-6xl mx-auto px-3 pt-3 pb-9"></div>
   <div className="min-h-screen bg-pink-50 px-6 py-10">
     <div className="min-h-screen bg-pink-50">
       <div className="max-w-6xl mx-auto px-6 py-12">
 
         {/* TOP HERO */}
-        <div className="bg-gradient-to-r from-green-100 to-blue-100 rounded-3xl p-10 text-center mb-14">
+        <div className="bg-gradient-to-r from-green-100 to-blue-100 rounded-3xl p-8 text-center mb-6">
           <div className="text-5xl mb-4">😊</div>
           <h1 className="text-3xl font-bold mb-2">
             Hi! I’m your Weather Friend 🌤️
