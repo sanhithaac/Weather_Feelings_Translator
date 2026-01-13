@@ -1,164 +1,114 @@
 import { useNavigate } from "react-router-dom";
-
+import { useEffect } from "react";
 export default function EmotionalDashboard() {
   const navigate = useNavigate();
+  useEffect(() => {
+  const parent = localStorage.getItem("parentLoggedIn");
+  if (!parent) {
+    navigate("/parent-login");
+  }
+}, [navigate]);
+
+  const weather = localStorage.getItem("lastWeather");
+  const feeling = localStorage.getItem("lastFeeling");
+  const childName = localStorage.getItem("childName") || "Your child";
 
   return (
-    <div className="min-h-screen bg-pink-50 px-6 py-10">
-      {/* HEADER */}
-      <div className="max-w-6xl mx-auto mb-10">
-        <button
-          onClick={() => navigate(-1)}
-          className="mb-4 text-pink-600 font-semibold"
-        >
-          ← Back
-        </button>
+    <div className="min-h-screen bg-pink-50">
+      <div className="max-w-6xl mx-auto px-6 py-12">
+      
+      {/* TITLE */}
+      <h1 className="text-4xl font-bold text-pink-700 mb-2">
+        Emotional Dashboard
+      </h1>
 
-        <h1 className="text-4xl font-bold text-pink-700">
-          Emotional Weather Dashboard
-        </h1>
-        <p className="text-gray-600 mt-2">
-          A gentle overview of emotional patterns and growth.
-        </p>
+      <p className="text-pink-600 mb-10 text-lg">
+        A gentle overview of {childName}’s emotional journey 🌸
+      </p>
+
+      {/* MAIN SUMMARY */}
+      <div className="bg-white rounded-3xl shadow p-10 mb-12 max-w-4xl">
+        {weather && feeling ? (
+          <>
+            <h2 className="text-2xl font-bold mb-4">
+              Today’s Emotional Weather
+            </h2>
+
+            <p className="text-xl mb-2">
+              Weather: <span className="font-bold text-pink-600">{weather}</span>
+            </p>
+
+            <p className="text-xl mb-6">
+              Feeling: <span className="font-bold text-pink-600">{feeling}</span>
+            </p>
+
+            <p className="text-gray-600 text-lg max-w-2xl">
+              This combination shows how your child is understanding and
+              expressing emotions through weather metaphors. This is a healthy
+              and positive way to communicate feelings 💖
+            </p>
+          </>
+        ) : (
+          <>
+            <h2 className="text-2xl font-bold mb-4">
+              No check-in yet today
+            </h2>
+            <p className="text-gray-600 mb-6">
+              Ask your child to complete today’s check-in to see their emotional
+              summary here.
+            </p>
+          </>
+        )}
       </div>
 
-      {/* SUMMARY CARDS */}
-      <div className="grid md:grid-cols-3 gap-6 max-w-6xl mx-auto mb-12">
-        <SummaryCard title="Days Logged" value="7 / 7" sub="Full week 🌈" />
-        <SummaryCard title="New Emotions" value="4" sub="This week" />
-        <SummaryCard
-          title="Current Climate"
-          value="Sunny"
-          sub="Calm & happy ☀️"
+      {/* QUICK INSIGHTS */}
+      <div className="grid md:grid-cols-3 gap-8 max-w-5xl mb-16">
+        <InsightCard
+          title="Emotion Awareness"
+          desc="Recognizing feelings using familiar weather ideas."
+          emoji="🌈"
+        />
+        <InsightCard
+          title="Self Expression"
+          desc="Comfortably expressing emotions without pressure."
+          emoji="💬"
+        />
+        <InsightCard
+          title="Emotional Safety"
+          desc="Creating a calm, non-judgmental space."
+          emoji="🫶"
         />
       </div>
 
-      {/* WEEKLY TREND */}
-      <div className="max-w-6xl mx-auto bg-white rounded-3xl p-8 shadow mb-12">
-        <h2 className="text-2xl font-bold mb-2">
-          Weekly Emotional Trend
-        </h2>
-        <p className="text-gray-600 mb-6">
-          Mapping emotions to gentle weather patterns
-        </p>
+      {/* ACTIONS */}
+      <div className="flex flex-wrap gap-6">
+        <button
+          onClick={() => navigate("/checkin")}
+          className="bg-pink-500 text-white px-8 py-4 rounded-full font-bold hover:bg-pink-600 transition"
+        >
+          Go to Check-in
+        </button>
 
-        <div className="flex justify-between items-end h-40">
-          {["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"].map(
-            (day, i) => (
-              <div key={day} className="flex flex-col items-center">
-                <div
-                  className="w-8 rounded-full bg-pink-400"
-                  style={{ height: `${40 + i * 10}px` }}
-                ></div>
-                <span className="mt-2 text-sm">{day}</span>
-              </div>
-            )
-          )}
-        </div>
+        <button
+          onClick={() => navigate("/story")}
+          className="bg-white border-2 border-pink-300 text-pink-600 px-8 py-4 rounded-full font-bold hover:bg-pink-100 transition"
+        >
+          View Story Mode
+        </button>
       </div>
-
-      {/* MILESTONES */}
-      <div className="max-w-6xl mx-auto mb-12">
-        <h2 className="text-2xl font-bold mb-6">
-          Milestones Achieved 🌟
-        </h2>
-
-        <div className="grid md:grid-cols-2 gap-6">
-          <Milestone
-            icon="💗"
-            title="Heartfelt Mist"
-            desc="Expressed empathy"
-          />
-          <Milestone
-            icon="🌫️"
-            title="Gentle Fog"
-            desc="Identified confusion"
-          />
-          <Milestone
-            icon="☀️"
-            title="Clear Skies"
-            desc="Showed contentment"
-          />
-          <Milestone
-            icon="🍃"
-            title="Soft Breeze"
-            desc="Recognized calmness"
-          />
-        </div>
-      </div>
-
-      {/* RECENT ACTIVITY */}
-      <div className="max-w-6xl mx-auto bg-white rounded-3xl p-8 shadow">
-        <h2 className="text-2xl font-bold mb-6">
-          Recent Emotional Check-ins
-        </h2>
-
-        <table className="w-full text-left">
-          <thead>
-            <tr className="text-gray-500 text-sm border-b">
-              <th className="pb-3">Weather</th>
-              <th className="pb-3">Emotion</th>
-              <th className="pb-3">Intensity</th>
-              <th className="pb-3">Time</th>
-            </tr>
-          </thead>
-          <tbody>
-            <ActivityRow
-              weather="⛈️ Storm"
-              emotion="Overwhelmed"
-              intensity="High"
-              time="Today, 2:15 PM"
-            />
-            <ActivityRow
-              weather="🌧️ Rain"
-              emotion="Calm"
-              intensity="Medium"
-              time="Yesterday"
-            />
-            <ActivityRow
-              weather="☀️ Sunny"
-              emotion="Happy"
-              intensity="Low"
-              time="2 days ago"
-            />
-          </tbody>
-        </table>
-      </div>
+    </div>
     </div>
   );
 }
 
-/* ---------- SMALL COMPONENTS ---------- */
+/* ---------------- SMALL COMPONENT ---------------- */
 
-function SummaryCard({ title, value, sub }) {
+function InsightCard({ title, desc, emoji }) {
   return (
-    <div className="bg-white rounded-2xl p-6 shadow text-center">
-      <h3 className="text-gray-500">{title}</h3>
-      <div className="text-3xl font-bold my-2">{value}</div>
-      <p className="text-pink-500 font-semibold">{sub}</p>
+    <div className="bg-white rounded-2xl p-8 shadow text-center">
+      <div className="text-4xl mb-4">{emoji}</div>
+      <h3 className="font-bold text-lg mb-2">{title}</h3>
+      <p className="text-gray-600 text-sm">{desc}</p>
     </div>
-  );
-}
-
-function Milestone({ icon, title, desc }) {
-  return (
-    <div className="bg-pink-100 rounded-2xl p-6 flex items-center gap-4">
-      <div className="text-3xl">{icon}</div>
-      <div>
-        <h4 className="font-bold">{title}</h4>
-        <p className="text-sm text-gray-600">{desc}</p>
-      </div>
-    </div>
-  );
-}
-
-function ActivityRow({ weather, emotion, intensity, time }) {
-  return (
-    <tr className="border-b last:border-none">
-      <td className="py-4">{weather}</td>
-      <td className="py-4">{emotion}</td>
-      <td className="py-4">{intensity}</td>
-      <td className="py-4 text-gray-500">{time}</td>
-    </tr>
   );
 }

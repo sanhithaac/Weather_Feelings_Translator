@@ -52,7 +52,7 @@ export default function Match() {
           onClick={() => navigate("/checkin")}
           className="bg-pink-500 text-white px-6 py-3 rounded-full font-bold hover:bg-pink-600 transition"
         >
-        Set the Mood again 💗
+        Set the Mood again
         </button>
       </div>
     </div>

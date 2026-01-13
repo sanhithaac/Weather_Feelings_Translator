@@ -1,9 +1,17 @@
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-
+import { useEffect } from "react";
 
 export default function Checkin() {
   const navigate = useNavigate();
+  
+
+  useEffect(() => {
+    const loggedIn = localStorage.getItem("loggedIn");
+    if (!loggedIn) {
+      navigate("/");
+    }
+  }, [navigate]);
 
   /* ---------------- OPTIONS ---------------- */
 
@@ -39,10 +47,14 @@ export default function Checkin() {
     });
   };
 
-  return(
-  <div className="min-h-screen bg-green-50">
-     
-    <div className="min-h-screen bg-green-50 px-6 py-10">
+  /* ---------------- HELPERS ---------------- */
+
+  const selectedWeather = WEATHER_OPTIONS.find(w => w.key === weather);
+  const selectedFeeling = FEELING_OPTIONS.find(f => f.key === feeling);
+
+  return (
+    <div className="min-h-screen w-full bg-green-50 px-6 md:px-16 lg:px-24 py-12">
+
       {/* TITLE */}
       <h1 className="text-4xl font-bold text-center text-green-800 mb-2">
         Let’s explore together!
@@ -54,7 +66,8 @@ export default function Checkin() {
       </p>
 
       {/* WEATHER + FEELING */}
-      <div className="grid md:grid-cols-2 gap-10 max-w-5xl mx-auto mb-16">
+      <div className="grid md:grid-cols-2 gap-12 max-w-none mx-auto mb-20">
+
         {/* WEATHER */}
         <div className="bg-white rounded-2xl p-6 shadow">
           <h2 className="text-xl font-bold mb-6">🌤️ How is the Weather?</h2>
@@ -63,11 +76,11 @@ export default function Checkin() {
             {WEATHER_OPTIONS.map((w) => (
               <SelectCard
                 key={w.key}
-                icon={w.icon}
                 title={w.key}
+                icon={w.icon}
                 desc={w.desc}
-                selected={weather?.key === w.key}
-                onClick={() => setWeather(w)}
+                selected={weather === w.key}
+                onClick={() => setWeather(w.key)}
               />
             ))}
           </div>
@@ -81,11 +94,11 @@ export default function Checkin() {
             {FEELING_OPTIONS.map((f) => (
               <SelectCard
                 key={f.key}
-                icon={f.icon}
                 title={f.key}
+                icon={f.icon}
                 desc={f.desc}
-                selected={feeling?.key === f.key}
-                onClick={() => setFeeling(f)}
+                selected={feeling === f.key}
+                onClick={() => setFeeling(f.key)}
               />
             ))}
           </div>
@@ -95,7 +108,8 @@ export default function Checkin() {
       {/* MATCH BOX */}
       <div className="max-w-4xl mx-auto bg-pink-100 border-2 border-dashed border-pink-400 rounded-2xl p-10 text-center mb-20">
         <div className="text-4xl mb-4">
-          {weather ? weather.icon : "❓"} + {feeling ? feeling.icon : "❓"}
+          {selectedWeather ? selectedWeather.icon : "❓"} +{" "}
+          {selectedFeeling ? selectedFeeling.icon : "❓"}
         </div>
 
         <h3 className="text-2xl font-bold mb-2">
@@ -141,28 +155,26 @@ export default function Checkin() {
         />
       </div>
     </div>
-    </div>
-
   );
 }
 
 /* ---------------- COMPONENTS ---------------- */
 
-function SelectCard({ icon, title, desc, selected, onClick }) {
+function SelectCard({ title, icon, desc, selected, onClick }) {
   return (
-    <button
+    <div
       onClick={onClick}
-      className={`rounded-xl p-6 text-center transition border
+      className={`cursor-pointer rounded-xl p-6 text-center transition
         ${
           selected
-            ? "bg-green-200 border-green-400 ring-4 ring-green-300"
-            : "bg-green-50 border-transparent hover:bg-green-100"
+            ? "bg-green-200 ring-4 ring-green-400"
+            : "bg-green-50 hover:bg-green-100"
         }`}
     >
-      <div className="text-3xl mb-2">{icon}</div>
+      <div className="text-4xl mb-2">{icon}</div>
       <div className="font-bold">{title}</div>
-      <div className="text-sm text-green-600">{desc}</div>
-    </button>
+      <div className="text-sm text-green-700">{desc}</div>
+    </div>
   );
 }
 
