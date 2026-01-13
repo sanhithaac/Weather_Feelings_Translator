@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/sanhithaac/Weather_Feelings_Translator/static/css/main.23653da6.css",
-    "main.js": "/sanhithaac/Weather_Feelings_Translator/static/js/main.3351039a.js",
+    "main.js": "/sanhithaac/Weather_Feelings_Translator/static/js/main.910ab475.js",
     "index.html": "/sanhithaac/Weather_Feelings_Translator/index.html",
     "main.23653da6.css.map": "/sanhithaac/Weather_Feelings_Translator/static/css/main.23653da6.css.map",
-    "main.3351039a.js.map": "/sanhithaac/Weather_Feelings_Translator/static/js/main.3351039a.js.map"
+    "main.910ab475.js.map": "/sanhithaac/Weather_Feelings_Translator/static/js/main.910ab475.js.map"
   },
   "entrypoints": [
     "static/css/main.23653da6.css",
-    "static/js/main.3351039a.js"
+    "static/js/main.910ab475.js"
   ]
 }
